@@ -111,31 +111,39 @@ table#t01 th	{
     <legend class="legend" style="font-weight: 700; font-size: large;">Category Information</legend> 
       <table  style="border-collapse:collapse;" > 
           <tr>              
-              <td>Effect Stage:  <asp:DropDownList ID="cate_Stage_DDL" runat="server"   OnSelectedIndexChanged="cate_Stage_DDL_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-              <td>Category:  
-                  <asp:DropDownList ID="cate_cate_DDL" runat="server">
+              <td class="auto-style1">Effect Stage:  <asp:DropDownList ID="cate_Stage_DDL" runat="server"   OnSelectedIndexChanged="cate_Stage_DDL_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
+              <td class="auto-style1">Category:  
+                  <asp:DropDownList ID="cate_cate_DDL" runat="server" AutoPostBack="True" OnSelectedIndexChanged="cate_cate_DDL_SelectedIndexChanged">
                   </asp:DropDownList>
               </td>             
               
-              <td>
-                  &nbsp;Input Items:</td>
+              <td class="auto-style1">
+                  &nbsp;Input Items:<asp:DropDownList ID="cate_ip_DDL" runat="server" Height="16px" AutoPostBack="True" OnSelectedIndexChanged="cate_ip_DDL_SelectedIndexChanged">
+                  </asp:DropDownList>
+              </td>
               <td class="auto-style1">                 
-              &nbsp;</td>                                               
+              </td>                                               
           </tr> 
 
           <tr>
                <td class="auto-style1">
-                   Key parameter:</td>
+                   Key parameter:<asp:DropDownList ID="cate_kp_DDL" runat="server" AutoPostBack="True" OnSelectedIndexChanged="cate_kp_DDL_SelectedIndexChanged">
+                   </asp:DropDownList>
+               </td>
               
               
                <td class="auto-style1">
                   Methodology:  
+                   <asp:DropDownList ID="cate_md_DDL" runat="server" OnSelectedIndexChanged="cate_md_DDL_SelectedIndexChanged">
+                   </asp:DropDownList>
               </td>
               
 
 
                <td class="auto-style1">
-                   &nbsp;Special Characteristics:</td>
+                   &nbsp;Special Characteristics:<asp:DropDownList ID="cate_spechar_DDL" runat="server">
+                   </asp:DropDownList>
+                   </td>
               
 
               <td class="auto-style1">

@@ -28,7 +28,12 @@ public partial class EP_Category_Add : System.Web.UI.Page
     public string temp_siv = "";
     public static string global_sql_category = "";
     public static int global_index = 0;
-    public static string sign = "";
+    public static string Stage = "";
+    public static string Cate = "";
+    public static string KeyP = "";
+    public static string ip = "";
+    public static string Md = "";
+    public static string SpeChar = "";
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -40,7 +45,19 @@ public partial class EP_Category_Add : System.Web.UI.Page
         Panel_update_category.Visible = false;
         Panel_Add_Category.Visible = false;
         Panel_Category_View.Visible = false;
-        sign = cate_Stage_DDL.SelectedValue;
+        Stage = cate_Stage_DDL.SelectedValue;
+        Cate = cate_cate_DDL.SelectedValue;
+        ip = cate_ip_DDL.SelectedValue;
+        KeyP = cate_kp_DDL.SelectedValue;
+        Md = cate_md_DDL.SelectedValue;
+        SpeChar = cate_spechar_DDL.SelectedValue;
+
+        if(SpeChar!="")
+        {
+            
+        }
+
+
     }
    
 
@@ -128,7 +145,7 @@ public partial class EP_Category_Add : System.Web.UI.Page
         clsMySQL db = new clsMySQL();
         string sql_category = "";
 
-        sql_category = "select * from npi_ep_category where EP_Cate_Stage='" + cate_Stage_DDL.SelectedValue + "'";
+        //sql_category = "select * from npi_ep_category where EP_Cate_Stage='" + cate_Stage_DDL.SelectedValue + "'";
 
         /*if (Text_Category.Text.Trim() != "" || Text_iit.Text.Trim() != "" || Text_sp.Text.Trim() != "" ||
             Text_md.Text.Trim() != "" || Text_kp.Text.Trim() != "")
@@ -157,10 +174,10 @@ public partial class EP_Category_Add : System.Web.UI.Page
             }
         }*/
 
-        global_sql_category = sql_category;
+        //global_sql_category = sql_category;
                   
             //string stage_value = cate_Stage_DDL.SelectedValue;
-            clsMySQL.DBReply dr = db.QueryDS(sql_category);
+            clsMySQL.DBReply dr = db.QueryDS(global_sql_category);
             GD_CATE.DataSource = dr.dsDataSet.Tables[0].DefaultView;
 
             GD_CATE.DataBind();
@@ -583,6 +600,9 @@ public partial class EP_Category_Add : System.Web.UI.Page
         MySqlCommand MySqlCmd = new MySqlCommand(mySQL, MySqlConn);
         MySqlDataReader SelData = MySqlCmd.ExecuteReader();
 
+        cate_Stage_DDL.Items.Add(new ListItem("Please Select "));
+
+
         while (SelData.Read())
         {
 
@@ -591,12 +611,20 @@ public partial class EP_Category_Add : System.Web.UI.Page
             index++;
         }
 
+        
+
+
     }
 
 
     protected void cate_Stage_DDL_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string mySQL = "select DISTINCT EP_Cate_Cate from npi_ep_category where EP_Cate_Stage='" + sign +"'";
+        
+
+
+
+
+        string mySQL = "select DISTINCT EP_Cate_Cate from npi_ep_category where EP_Cate_Stage='" + Stage +"'";
         int index = 0;
 
 
@@ -609,13 +637,170 @@ public partial class EP_Category_Add : System.Web.UI.Page
         {
             cate_cate_DDL.Items.Clear();
         }
+        
+            cate_cate_DDL.Items.Add(new ListItem("Please Select"));
 
-        while (SelData.Read())
+            while (SelData.Read())
+            {
+
+                string temp = SelData["EP_Cate_Cate"].ToString();
+                cate_cate_DDL.Items.Add(new ListItem(temp, temp));
+                index++;
+            }
+
+
+        
+
+
+        global_sql_category = "select * from npi_ep_category where EP_Cate_Stage='" + Stage + "'";
+
+
+    }
+
+
+
+
+    
+
+
+    protected void cate_cate_DDL_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        
+
+
+
+
+        string mySQL = "select DISTINCT EP_Cate_Iiitems from npi_ep_category where EP_Cate_Stage='" + Stage + "' and EP_Cate_Cate='" + Cate + "'";
+        int index = 0;
+
+
+        MySqlConnection MySqlConn = new MySqlConnection(ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString);
+        MySqlConn.Open();
+
+        MySqlCommand MySqlCmd = new MySqlCommand(mySQL, MySqlConn);
+        MySqlDataReader SelData = MySqlCmd.ExecuteReader();
+        
+        if (cate_ip_DDL.Items.Count > 0)
         {
-
-            string temp = SelData["EP_Cate_Cate"].ToString();
-            cate_cate_DDL.Items.Add(new ListItem(temp, temp));
-            index++;
+            cate_ip_DDL.Items.Clear();
         }
+       
+            cate_ip_DDL.Items.Add(new ListItem("Please Select"));
+
+            while (SelData.Read())
+            {
+
+                string temp = SelData["EP_Cate_Iiitems"].ToString();
+                cate_ip_DDL.Items.Add(new ListItem(temp, temp));
+                index++;
+            }
+
+
+        
+
+
+        global_sql_category = "select * from npi_ep_category where EP_Cate_Stage='" + Stage + "'and EP_Cate_Cate='" + Cate + "'";
+        
+    }
+    protected void cate_ip_DDL_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string mySQL = "select DISTINCT EP_Cate_KP from npi_ep_category where EP_Cate_Stage='" + Stage + "' and EP_Cate_Cate='" + Cate + "'and EP_Cate_Iiitems='" + ip + "'";
+        int index = 0;
+
+
+        MySqlConnection MySqlConn = new MySqlConnection(ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString);
+        MySqlConn.Open();
+
+        MySqlCommand MySqlCmd = new MySqlCommand(mySQL, MySqlConn);
+        MySqlDataReader SelData = MySqlCmd.ExecuteReader();
+        if (cate_kp_DDL.Items.Count > 0)
+        {
+            cate_kp_DDL.Items.Clear();
+        }
+        
+        
+            cate_kp_DDL.Items.Add(new ListItem("Please Select"));
+
+            while (SelData.Read())
+            {
+
+                string temp = SelData["EP_Cate_KP"].ToString();
+                cate_kp_DDL.Items.Add(new ListItem(temp, temp));
+                index++;
+            }
+
+
+        
+
+        global_sql_category = "select * from npi_ep_category where EP_Cate_Stage='" + Stage + "' and EP_Cate_Cate='" + Cate + "'and EP_Cate_Iiitems='" + ip + "'";
+
+    }
+    protected void cate_kp_DDL_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string mySQL = "select DISTINCT EP_Cate_Md from npi_ep_category where EP_Cate_Stage='" + Stage + "' and EP_Cate_Cate='" + Cate + "'and EP_Cate_Iiitems='" + ip + "'and  EP_Cate_KP='" + KeyP + "'";
+        int index = 0;
+
+
+        MySqlConnection MySqlConn = new MySqlConnection(ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString);
+        MySqlConn.Open();
+
+        MySqlCommand MySqlCmd = new MySqlCommand(mySQL, MySqlConn);
+        MySqlDataReader SelData = MySqlCmd.ExecuteReader();
+        if (cate_md_DDL.Items.Count > 0)
+        {
+            cate_md_DDL.Items.Clear();
+        }
+        
+            cate_md_DDL.Items.Add(new ListItem("Please Select"));
+
+            while (SelData.Read())
+            {
+
+                string temp = SelData["EP_Cate_Md"].ToString();
+                cate_md_DDL.Items.Add(new ListItem(temp, temp));
+                index++;
+            }
+
+
+        
+
+        global_sql_category = "select * from npi_ep_category where EP_Cate_Stage='" + Stage + "' and EP_Cate_Cate='" + Cate + "'and EP_Cate_Iiitems='" + ip + "'and  EP_Cate_KP='" + KeyP + "'";
+
+
+    }
+    protected void cate_md_DDL_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        string mySQL = "select DISTINCT EP_Cate_SpeChar from npi_ep_category where EP_Cate_Stage='" + Stage + "' and EP_Cate_Cate='" + Cate + "'and EP_Cate_Iiitems='" + ip + "'and  EP_Cate_KP='" + KeyP + "' and EP_Cate_Md='" + Md + "'";
+        int index = 0;
+
+
+        MySqlConnection MySqlConn = new MySqlConnection(ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString);
+        MySqlConn.Open();
+
+        MySqlCommand MySqlCmd = new MySqlCommand(mySQL, MySqlConn);
+        MySqlDataReader SelData = MySqlCmd.ExecuteReader();
+        if (cate_spechar_DDL.Items.Count > 0)
+        {
+            cate_spechar_DDL.Items.Clear();
+        }
+       
+            cate_spechar_DDL.Items.Add(new ListItem("Please Select"));
+
+            while (SelData.Read())
+            {
+
+                string temp = SelData["EP_Cate_SpeChar"].ToString();
+                cate_spechar_DDL.Items.Add(new ListItem(temp, temp));
+                index++;
+            }
+
+
+        
+
+
+        global_sql_category = "select * from npi_ep_category where EP_Cate_Stage='" + Stage + "' and EP_Cate_Cate='" + Cate + "'and EP_Cate_Iiitems='" + ip + "'and  EP_Cate_KP='" + KeyP + "' and EP_Cate_Md='" + Md + "' and EP_Cate_SpeChar='" + SpeChar + "'";
+
+
     }
 }
